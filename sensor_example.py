@@ -1,5 +1,6 @@
 import numpy as np
 from sklearn.gaussian_process import GaussianProcessRegressor
+from sklearn.ensemble import RandomForestClassifier
 from sklearn.gaussian_process.kernels import RBF, ConstantKernel as C
 from modAL.models import ActiveLearner
 import matplotlib.pyplot as plt
@@ -25,7 +26,7 @@ data = generate_data(sensor_locations)
 
 # Define the Gaussian process regressor with RBF kernel
 kernel = C(1.0, (1e-3, 1e3)) * RBF(1.0, (1e-2, 1e2))
-model = GaussianProcessRegressor(kernel=kernel)
+model = RandomForestClassifier()
 
 # assembling initial training set
 n_initial = 5
@@ -43,8 +44,7 @@ learner = ActiveLearner(
     estimator=model,
     X_training=X_initial,
     y_training=y_initial,
-    query_strategy=GP_regression_std
-    
+    query_strategy=GP_regression_std  
 )
 
 # Number of iterations for active learning
